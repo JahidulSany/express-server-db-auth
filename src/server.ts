@@ -4,6 +4,7 @@ import express, {
   type Response,
 } from 'express';
 import config from './utils';
+import { Pool } from 'pg';
 
 const app: Application = express();
 
@@ -11,6 +12,10 @@ const app: Application = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.text());
+
+const pool = new Pool({
+  connectionString: config.connection_string,
+});
 
 app.get('/', (req: Request, res: Response) => {
   res.status(200).send('Hello World!!!');
