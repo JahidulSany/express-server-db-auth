@@ -39,10 +39,59 @@ const initDB = async () => {
 };
 initDB();
 
+// Root Route
 app.get('/', async (req: Request, res: Response) => {
   await res.send(`Hello Express..`);
 });
 
+// Get all Users
+app.get('/api/users/', async (req: Request, res: Response) => {
+  try {
+    const result = await pool.query(`
+      SELECT * from users
+      `);
+    res.status(200).json({
+      success: true,
+      message: 'Retrieved all users successfully',
+      data: result.rows,
+    });
+  } catch (error: any) {
+    res.status(500).json({
+      success: true,
+      message: error.message,
+      error: error,
+    });
+  }
+});
+
+// Get a specific User
+app.get('/api/users/:id', async (req: Request, res: Response) => {
+  const { id } = req.params;
+  try {
+    const result = await pool.query(`SELECT * FROM users WHERE id=$1`, [id]);
+
+    if (result.rows.length === 0) {
+      res.status(404).json({
+        success: false,
+        message: `User not found`,
+        data: {},
+      });
+    }
+    res.status(200).json({
+      success: true,
+      message: 'User retrieved successfully',
+      data: result.rows[0],
+    });
+  } catch (error: any) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+      error: error,
+    });
+  }
+});
+
+// Create a User
 app.post('/api/users', async (req: Request, res: Response) => {
   const { name, email, password, age } = req.body;
   try {
@@ -66,40 +115,30 @@ app.post('/api/users', async (req: Request, res: Response) => {
   }
 });
 
-app.get('/api/users/', async (req: Request, res: Response) => {
-  try {
-    const result = await pool.query(`
-      SELECT * from users
-      `);
-    res.status(200).json({
-      success: true,
-      message: 'Retrieved all users successfully',
-      data: result.rows,
-    });
-  } catch (error: any) {
-    res.status(500).json({
-      success: true,
-      message: error.message,
-      error: error,
-    });
-  }
-});
+// Update a specific User Information
+app.put('/api/users/:id', async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const { name, password, age, is_active } = req.body;
 
-app.get('/api/users/:id', async (req: Request, res: Response) => {
   try {
-    const { id } = req.params;
-    const result = await pool.query(`SELECT * FROM users WHERE id=$1`, [id]);
+    const result = await pool.query(
+      `
+      UPDATE users SET name = $1, password = $2, age = $3, is_active = $4 WHERE id = $5 RETURNING *
+      `,
+      [name, password, age, is_active, id],
+    );
 
     if (result.rows.length === 0) {
-      res.status(500).json({
+      res.status(404).json({
         success: false,
         message: `User not found`,
         data: {},
       });
     }
+
     res.status(200).json({
       success: true,
-      message: 'User retrieved successfully',
+      message: 'User updated sucessfully',
       data: result.rows[0],
     });
   } catch (error: any) {
@@ -110,6 +149,8 @@ app.get('/api/users/:id', async (req: Request, res: Response) => {
     });
   }
 });
+
+// Delete a Specific User
 
 const port = config.port;
 app.listen(port, () =>
