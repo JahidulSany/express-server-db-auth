@@ -123,8 +123,9 @@ app.put('/api/users/:id', async (req: Request, res: Response) => {
   try {
     const result = await pool.query(
       `
-      UPDATE users SET name = $1, password = $2, age = $3, is_active = $4 WHERE id = $5 RETURNING *
-      `,
+      UPDATE users
+      SET name = COALESCE($1, name), password = COALESCE($2,password), age = COALESCE($3, age), is_active = COALESCE($4, is_active)
+      WHERE id = $5 RETURNING *`,
       [name, password, age, is_active, id],
     );
 
@@ -151,6 +152,37 @@ app.put('/api/users/:id', async (req: Request, res: Response) => {
 });
 
 // Delete a Specific User
+app.delete('/api/users/:id', async (req: Request, res: Response) => {
+  const { id } = req.params;
+  try {
+    const result = await pool.query(
+      `
+      DELETE FROM users
+      WHERE id=$1`,
+      [id],
+    );
+
+    if (result.rowCount === 0) {
+      res.status(404).json({
+        succuss: false,
+        message: 'User not found',
+        data: {},
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: 'User deleted sucessfully',
+      data: {},
+    });
+  } catch (error: any) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+      error: error,
+    });
+  }
+});
 
 const port = config.port;
 app.listen(port, () =>
