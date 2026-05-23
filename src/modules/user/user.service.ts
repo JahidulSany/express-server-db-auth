@@ -19,7 +19,7 @@ const getAllUsersFromDB = async () => {
 };
 
 const getSingleUserFromDB = async (id: string) => {
-  const result = await pool.query(`SELECT * FROM users WHERE id=$1`, [id]);
+  const result = await pool.query(`SELECT * FROM users WHERE id = $1`, [id]);
   return result;
 };
 
@@ -39,7 +39,7 @@ const deleteUserFromDB = async (id: string) => {
   const result = await pool.query(
     `
       DELETE FROM users
-      WHERE id=$1`,
+      WHERE id = $1`,
     [id],
   );
   return result;
