@@ -1,5 +1,6 @@
 import { Router, type Request, type Response } from 'express';
 import { userController } from './user.controller';
+import auth from '../../middlewares/auth';
 
 const router = Router();
 
@@ -7,7 +8,7 @@ const router = Router();
 router.post('/', userController.createUser);
 
 // Get all Users
-router.get('/', userController.getAllUsers);
+router.get('/', auth(), userController.getAllUsers);
 
 // Get a specific User
 router.get('/:id', userController.getSingleUser);

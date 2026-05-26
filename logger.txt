@@ -1,1 +1,9 @@
 ✅ Method: GET, URL: /api/users, Time: 1779707781882
+✅ Method: POST, URL: /api/auth/login, Time: 1779787008310
+✅ Method: GET, URL: /api/users, Time: 1779787221407
+✅ Method: GET, URL: /api/users, Time: 1779787227365
+✅ Method: GET, URL: /api/users, Time: 1779787284754
+✅ Method: GET, URL: /favicon.ico, Time: 1779787284834
+✅ Method: GET, URL: /api/users, Time: 1779787296156
+✅ Method: GET, URL: /api/users, Time: 1779787299906
+✅ Method: GET, URL: /api/users, Time: 1779787334584
