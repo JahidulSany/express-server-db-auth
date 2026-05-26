@@ -17,6 +17,7 @@ const createUser = async (req: Request, res: Response) => {
 };
 
 const getAllUsers = async (req: Request, res: Response) => {
+  console.log(req.user);
   try {
     const result = await userService.getAllUsersFromDB();
     if (result.rows.length === 0) {
@@ -32,7 +33,6 @@ const getAllUsers = async (req: Request, res: Response) => {
       message: 'Retrieved all users successfully',
       data: result.rows,
     });
-
   } catch (error: any) {
     res.status(500).json({
       success: false,
