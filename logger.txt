@@ -8,3 +8,10 @@
 ✅ Method: GET, URL: /api/users, Time: 1779787299906
 ✅ Method: GET, URL: /api/users, Time: 1779787334584
 ✅ Method: GET, URL: /api/users, Time: 1779791083407
+✅ Method: GET, URL: /api/users, Time: 1779792925062
+✅ Method: POST, URL: /api/auth/login, Time: 1779792937643
+✅ Method: POST, URL: /api/auth/login, Time: 1779793035871
+✅ Method: GET, URL: /api/users, Time: 1779793058450
+✅ Method: GET, URL: /api/users, Time: 1779793068526
+✅ Method: GET, URL: /api/users, Time: 1779793076904
+✅ Method: GET, URL: /api/users, Time: 1779793093135
