@@ -7,8 +7,10 @@ const auth = () => {
   return async (req: Request, res: Response, next: NextFunction) => {
     try {
       console.log('This is a protected route!!!!');
+      
       const token = req.headers.authorization;
       console.log(token);
+      
       if (!token) {
         res.status(401).json({
           success: false,
@@ -23,9 +25,8 @@ const auth = () => {
 
       console.log(decoded);
 
-      const userData = await pool.query(
-        `
-      SELECT * FROM users WHERE email = $1
+      const userData = await pool.query(`
+        SELECT * FROM users WHERE email = $1
       `,
         [decoded.email],
       );
