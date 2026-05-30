@@ -1,4 +1,4 @@
-import type { ROLE } from '../../utils/enum';
+import type { ERole } from '../auth/auth.interface';
 
 export interface IUser {
   name: string;
@@ -6,5 +6,5 @@ export interface IUser {
   password: string;
   age: number;
   is_active?: boolean;
-  role?: ROLE.USER;
+  role?: ERole.admin | ERole.agent | ERole.user;
 }

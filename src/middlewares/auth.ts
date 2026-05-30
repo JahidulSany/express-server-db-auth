@@ -2,15 +2,17 @@ import type { NextFunction, Request, Response } from 'express';
 import jwt, { type JwtPayload } from 'jsonwebtoken';
 import config from '../utils';
 import { pool } from '../db';
+import { type TUserRole } from '../modules/auth/auth.interface';
 
-const auth = () => {
+const auth = (...roles: TUserRole[]) => {
   return async (req: Request, res: Response, next: NextFunction) => {
     try {
-      console.log('This is a protected route!!!!');
-      
+      // console.log(roles);
+      // console.log('This is a protected route!!!!');
+
       const token = req.headers.authorization;
-      console.log(token);
-      
+      // console.log(token);
+
       if (!token) {
         res.status(401).json({
           success: false,
@@ -25,7 +27,8 @@ const auth = () => {
 
       console.log(decoded);
 
-      const userData = await pool.query(`
+      const userData = await pool.query(
+        `
         SELECT * FROM users WHERE email = $1
       `,
         [decoded.email],
@@ -40,10 +43,19 @@ const auth = () => {
 
       const user = userData.rows[0];
 
-      if (!user.is_active) {
+      if (!user?.is_active) {
         res.status(403).json({
           success: false,
-          message: 'Forbidden!!!',
+          message: 'Forbidden: You do not have permission.',
+        });
+      }
+
+      // console.log(user.role);
+
+      if (roles.length && !roles.includes(user.role)) {
+        res.status(403).json({
+          success: false,
+          message: 'Forbidden: You do not have permission.',
         });
       }
 
