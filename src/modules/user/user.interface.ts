@@ -1,4 +1,8 @@
-import type { ERole } from '../auth/auth.interface';
+enum ERole {
+  admin = 'admin',
+  agent = 'agent',
+  user = 'user',
+}
 
 export interface IUser {
   name: string;

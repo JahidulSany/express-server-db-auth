@@ -7,10 +7,12 @@ import { userRoute } from './modules/user/user.route';
 import { profileRoute } from './modules/profile/profile.route';
 import { authRoute } from './modules/auth/auth.route';
 import logger from './middlewares/logger';
+import CookieParser from 'cookie-parser';
 
 const app: Application = express();
 
 // Middlewares
+app.use(CookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.text());

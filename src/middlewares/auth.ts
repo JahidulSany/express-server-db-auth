@@ -22,7 +22,7 @@ const auth = (...roles: TUserRole[]) => {
 
       const decoded = jwt.verify(
         token as string,
-        config.SECRET_Key as string,
+        config.secret_key as string,
       ) as JwtPayload;
 
       console.log(decoded);
