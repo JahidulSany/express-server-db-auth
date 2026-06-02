@@ -1,6 +1,6 @@
 import type { NextFunction, Request, Response } from 'express';
 import jwt, { type JwtPayload } from 'jsonwebtoken';
-import config from '../utils';
+import config from '../config';
 import { pool } from '../db';
 import { type TUserRole } from '../modules/auth/auth.interface';
 

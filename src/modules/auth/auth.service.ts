@@ -2,7 +2,7 @@ import bcrypt from 'bcryptjs';
 import { pool } from '../../db';
 import type { ILoginUser } from './auth.interface';
 import jwt, { type JwtPayload } from 'jsonwebtoken';
-import config from '../../utils';
+import config from '../../config';
 
 const loginUserFromDB = async (payload: ILoginUser) => {
   // Checking If User Exists

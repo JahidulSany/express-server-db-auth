@@ -1,5 +1,6 @@
 import type { Request, Response } from 'express';
 import { authService } from './auth.service';
+import sendResponse from '../../utils/sendResponse';
 
 const loginUser = async (req: Request, res: Response) => {
   try {
@@ -13,7 +14,8 @@ const loginUser = async (req: Request, res: Response) => {
       sameSite: 'lax',
     });
 
-    res.status(200).json({
+    sendResponse(res, {
+      statusCode: 200,
       success: true,
       message: 'User logged in successfully.',
       data: result,
@@ -21,7 +23,8 @@ const loginUser = async (req: Request, res: Response) => {
 
     return result;
   } catch (error: any) {
-    res.status(500).json({
+    sendResponse(res, {
+      statusCode: 500,
       success: false,
       message: error.message,
       error: error,
@@ -35,7 +38,8 @@ const refreshToken = async (req: Request, res: Response) => {
       req.cookies.refreshToken,
     );
 
-    res.status(200).json({
+    sendResponse(res, {
+      statusCode: 200,
       success: true,
       message: 'Access Token Generated.',
       data: result,
@@ -43,7 +47,8 @@ const refreshToken = async (req: Request, res: Response) => {
 
     return result;
   } catch (error: any) {
-    res.status(500).json({
+    sendResponse(res, {
+      statusCode: 500,
       success: false,
       message: error.message,
       error: error,
