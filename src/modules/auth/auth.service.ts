@@ -42,7 +42,7 @@ const loginUserFromDB = async (payload: ILoginUser) => {
     jwtPayload,
     config.refresh_secret_key as string,
     {
-      expiresIn: '1d',
+      expiresIn: '15d',
     },
   );
 
